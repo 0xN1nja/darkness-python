@@ -51,7 +51,7 @@ class Server():
             # Shutdown PC
             elif choice==4:
                 self.c.send("shutdown_pc".encode())
-                print(self.c.recv(4096).deocde())
+                print(self.c.recv(4096).decode())
                 logging.debug(self.c.recv(4096).decode())
             # Open URL
             elif choice==5:
@@ -82,5 +82,5 @@ class Server():
             os.system("clear")
         return (c,addr)
 if __name__ == "__main__":
-    c,addr=Server.init_socket("localhost",9999)
+    c,addr=Server.init_socket("192.168.29.94",9999)
     server=Server(c,addr)

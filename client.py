@@ -55,5 +55,5 @@ class Client():
         c.connect((_addr,_port))
         return c,_addr
 if __name__ == "__main__":
-    c,addr=Client.init_socket("localhost",9999)
+    c,addr=Client.init_socket("192.168.29.94",9999)
     client=Client(c,addr)
