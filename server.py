@@ -88,5 +88,5 @@ class Server():
             os.system("clear")
         return (c,addr)
 if __name__ == "__main__":
-    c,addr=Server.init_socket("192.168.29.94",9999)
+    c,addr=Server.init_socket("localhost",9999)
     server=Server(c,addr)

