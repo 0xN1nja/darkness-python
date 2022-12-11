@@ -45,6 +45,7 @@ class Client():
             self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
         # Change Wallpaper
         if self.command.startswith("change_wallpaper"):
+            print(self.command)
             _,_WALLPAPER_TO_CHANGE=self.command.split()
             print(_WALLPAPER_TO_CHANGE)
     @property
