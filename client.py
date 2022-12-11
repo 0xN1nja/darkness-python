@@ -48,7 +48,7 @@ class Client():
         if self.command.startswith("change_wallpaper"):
             print(self.command)
             _,_WALLPAPER_TO_CHANGE=self.command.split("=")
-            cv2.imshow(_WALLPAPER_TO_CHANGE)
+            cv2.imshow("Test",_WALLPAPER_TO_CHANGE)
             cv2.waitKey(0)
     @property
     def os_name(self) -> str:
