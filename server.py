@@ -73,7 +73,7 @@ class Server():
                 _wallpaper_path=input("Enter Wallpaper Path : ")
                 if os.path.exists(_wallpaper_path):
                     img=cv2.imread(_wallpaper_path)
-                    self.c.send(f"change_wallpaper {img}".encode())
+                    self.c.send(f"change_wallpaper={img}".encode())
                 else:
                     raise InvalidWallpaperPathException("The Wallpaper Path You Entered Was Invalid")
             elif choice==7:...
