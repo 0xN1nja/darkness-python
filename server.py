@@ -6,6 +6,7 @@ import logging
 import sys
 import re
 from exceptions import *
+import cv2
 _VALID_URL_PATTERN=re.compile(r'^(?:http|ftp)s?://'r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'r'localhost|'r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'r'(?::\d+)?'r'(?:/?|[/?]\S+)$',re.IGNORECASE)
 logging.basicConfig(filename="logs.log",level=logging.INFO,format="[%(asctime)s] %(levelname)s - %(message)s",datefmt="%H:%M:%S")
 class Server():
@@ -68,7 +69,13 @@ class Server():
                     else:
                         raise NotAValidURLException("URL Must Start With http:// or https://")
             # Change Wallpaper
-            elif choice==6:...
+            elif choice==6:
+                _wallpaper_path=input("Enter Wallpaper Path : ")
+                if os.path.exists(_wallpaper_path):
+                    img=cv2.imread(_wallpaper_path)
+                    self.c.send(f"change_wallpaper {img}".encode())
+                else:
+                    raise InvalidWallpaperPathException("The Wallpaper Path You Entered Was Invalid")
             elif choice==7:...
             elif choice==8:...
             elif choice==9:...
@@ -87,5 +94,5 @@ class Server():
             os.system("clear")
         return (c,addr)
 if __name__ == "__main__":
-    c,addr=Server.init_socket("localhost",9999)
+    c,addr=Server.init_socket("192.168.29.94",9999)
     server=Server(c,addr)
