@@ -4,9 +4,6 @@ import sys
 import os
 import webbrowser
 from PIL import ImageGrab
-import requests
-import cv2
-import numpy as np
 import subprocess
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
