@@ -8,3 +8,7 @@
 ![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/3.png)
 
 ![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/4.png)
+
+![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/5.png)
+
+![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/6.png)
