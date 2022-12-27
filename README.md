@@ -14,5 +14,3 @@
 ![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/6.png)
 
 ![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/7.png)
-
-![Screenshot](https://raw.githubusercontent.com/0xN1nja/darkness-python/master/assets/8.png)
