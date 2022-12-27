@@ -11,7 +11,7 @@ logging.basicConfig(filename="logs.log",level=logging.INFO,format="[%(asctime)s]
 class Server():
     def __init__(self,c:socket.socket,addr:Tuple[str,int]) -> None:
         self.c=c
-        choices=[i for i in range(1,10)]
+        choices=[i for i in range(1,11)]
         print(chalk.red(f"SUCCESSFULLY ESTABLISHED A CONNECTION WITH VICTIM. VICTIM'S IP : {addr}"))
         logging.info(f"SUCCESSFULLY ESTABLISHED A CONNECTION WITH VICTIM. VICTIM'S IP : {addr}")
         msg="""
