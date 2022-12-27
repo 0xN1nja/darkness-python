@@ -83,13 +83,14 @@ class Server():
                 if "PID" in ps:
                     print(ps)
                     with open("ps.log","a") as f:
-                        f.write(ps)
+                        f.write(ps+"\n===============================================================\n")
                     print("Saved Logs In ps.log")
                 else:
                     print("Process Name\t\tPID")
                     print(ps)
                     with open("ps.log","a") as f:
-                        f.write(ps)
+                        f.write("Process Name\t\tPID\n")
+                        f.write(ps+"===============================================================\n")
                     print("Saved Logs In ps.log")
             # Open Bash
             elif choice==8:
